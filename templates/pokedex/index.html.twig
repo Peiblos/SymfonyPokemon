@@ -1,37 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Pokedex index{% endblock %}
+{% block title %}Mi Pokédex{% endblock %}
 
 {% block body %}
-    <h1>Pokedex index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Level</th>
-                <th>Strong</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for pokedex in pokedexes %}
-            <tr>
-                <td>{{ pokedex.id }}</td>
-                <td>{{ pokedex.level }}</td>
-                <td>{{ pokedex.strong }}</td>
-                <td>
-                    <a href="{{ path('app_pokedex_show', {'id': pokedex.id}) }}">show</a>
-                    <a href="{{ path('app_pokedex_edit', {'id': pokedex.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_pokedex_new') }}">Create new</a>
+    <h1>Mi Pokédex</h1>
+<a href="{{path("app_main")}}">Volver al inicio</a>
+    {% if pokedex is empty %}
+        <p>No has capturado ningún Pokémon aún.</p>
+    {% else %}
+        <div class="pokemon-list">
+            {% for pokemon in pokedex %}
+                <div class="pokemon-card">
+                    {# <img src="{{ asset('images/pokemon/' ~ pokemon.image) }}" alt="{{ pokemon.name }}"> #}
+                    <h2>{{ pokemon.pokemon.name }}</h2>
+                    <p><strong>Tipo:</strong> {{ pokemon.pokemon.tipo }}</p>
+                    <p><strong>Nivel:</strong> {{ pokemon.level }}</p>
+                    <p><strong>Fuerza:</strong> {{ pokemon.strong }}</p>
+                </div>
+                {# <a href="{{ path('app_new_battle', { id: pokemon.id }) }}">Pelear</a><br> #}
+                <a href="{{ path('app_pokedex_training', { id: pokemon.id }) }}">Entrenar</a><br>
+                <hr>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
 {% endblock %}

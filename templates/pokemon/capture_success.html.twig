@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}¡Pokémon Capturado!{% endblock %}
+
+{% block body %}
+    <div class="capture-container">
+        <h1>¡Has capturado a {{ pokemon.name }}! 🎉</h1>
+
+        <div class="pokemon-card">
+            <img src="{{ asset('images/pokemon/' ~ pokemon.image) }}" alt="{{ pokemon.name }}">
+            <h2>{{ pokemon.name }}</h2>
+            <p>¡Ahora forma parte de tu Pokédex!</p>
+        </div>
+
+        <a href="{{ path('pokedex_user') }}" class="btn">Ver mi Pokédex</a>
+    </div>
+{% endblock %}

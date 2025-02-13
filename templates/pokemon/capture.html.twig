@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Captura Pokémon{% endblock %}
+
+{% block body %}
+    <h1>¡Encuentra un Pokémon!</h1>
+
+    <div class="pokemon-card">
+        <h2>{{ pokemon.name }}</h2>
+        <img src="{{ asset('images/pokemon/' ~ pokemon.image) }}" alt="{{ pokemon.name }}">
+        <p><strong>Tipo:</strong> {{ pokemon.tipo }}</p>
+        <p><strong>Nivel:</strong> {{ pokemon.level }}</p>
+        <p><strong>Fuerza:</strong> {{ pokemon.strong }}</p>
+    </div>
+
+    <a href="{{ path('app_pokemon_capture' ,{ id: pokemon.id }) }}" class="btn">Capturar Pokémon</a>
+     <a href="{{ path('app_main')}}" class="btn">huir</a>
+{% endblock %}

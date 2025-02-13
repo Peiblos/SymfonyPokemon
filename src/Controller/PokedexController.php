@@ -14,31 +14,27 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/pokedex')]
 final class PokedexController extends AbstractController
 {
-    #[Route(name: 'app_pokedex_index', methods: ['GET'])]
-    public function index(PokedexRepository $pokedexRepository): Response
+    #[Route(name: 'pokedex_user', methods: ['GET'])]
+    public function showPokedex(): Response
     {
-        return $this->render('pokedex/index.html.twig', [
-            'pokedexes' => $pokedexRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_pokedex_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $pokedex = new Pokedex();
-        $form = $this->createForm(PokedexType::class, $pokedex);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($pokedex);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_pokedex_index', [], Response::HTTP_SEE_OTHER);
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('pokedex/new.html.twig', [
+       $pokedex = $user->getPokedexes();
+
+        if (!$pokedex) {
+            return $this->render('pokedex/index.html.twig', [
+                'pokedex' => [],
+            ]);
+        }
+            
+        // Obtener los Pokémon de la Pokédex
+       
+
+        return $this->render('pokedex/index.html.twig', [
             'pokedex' => $pokedex,
-            'form' => $form,
         ]);
     }
 
@@ -50,32 +46,52 @@ final class PokedexController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_pokedex_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Pokedex $pokedex, EntityManagerInterface $entityManager): Response
+    // #[Route('/{id}/new', name: 'app_new_battle', methods: ['GET'])]
+    // public function show(Pokedex $pokemonPokedex, PokemonRepository $pokemonRepository, EntityManagerInterface $entityManager): Response
+    // {
+    //   
+    //     $pokemonArray = $pokemonRepository->findAll();
+    //     shuffle($pokemonArray);
+    //     $wildPokemon = $pokemonArray[0];
+
+    //     $user = $this->getUser();
+    //     $pokedex = $user->getPokedexes();
+    //     $pokedex->setPokemon($pokemon);
+    //     $pokedex->setLevel($pokemon->getLevel());
+    //     $pokedex->setStrong($pokemon->getStrong());
+
+    //     $battle->setPlayer($this->getUser());
+    //     $battle->setPokemonPlayer($pokemon);
+    //     $battle->setPokemonWild($wildPokemon);
+
+    //     $entityManager->persist($battle);
+    //     $entityManager->flush();
+
+    //     return $this->render('battle/show.html.twig', [
+    //         'battle' => $battle,
+    //     ]);
+    // }
+
+    #[Route('/training/{id}', name: 'app_pokedex_training', methods: ['GET', 'POST'])]
+    public function training(int $id, PokedexRepository $pokedexRepository, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(PokedexType::class, $pokedex);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_pokedex_index', [], Response::HTTP_SEE_OTHER);
+        $user = $this->getUser();
+        if (!$user) {
+            return new Response("Necesitas estar autenticado para entrenar al Pokémon", Response::HTTP_FORBIDDEN);
         }
 
-        return $this->render('pokedex/edit.html.twig', [
-            'pokedex' => $pokedex,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_pokedex_delete', methods: ['POST'])]
-    public function delete(Request $request, Pokedex $pokedex, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$pokedex->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($pokedex);
-            $entityManager->flush();
+        $pokemon = $pokedexRepository->find($id);
+        if (!$pokemon) {
+            return new Response("Pokémon no encontrado", Response::HTTP_NOT_FOUND);
         }
 
-        return $this->redirectToRoute('app_pokedex_index', [], Response::HTTP_SEE_OTHER);
+        // Entrenar el Pokémon sumando 10 puntos a su fuerza
+        $pokemon->setStrong($pokemon->getStrong() + 10);
+        $entityManager->persist($pokemon);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('pokedex_user');
     }
+
+
 }
