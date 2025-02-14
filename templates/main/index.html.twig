@@ -4,31 +4,131 @@
 
 {% block body %}
     <div class="container">
-        <h1>Bienvenido a la Pokedex</h1>
-        <p>¡Haz clic en los enlaces de abajo para interactuar con la aplicación!</p>
+        <h1 class="main-title">Bienvenido a la Pokedex</h1>
+        <p class="intro-text">¡Haz clic en los enlaces de abajo para interactuar con la aplicación!</p>
 
         {% if is_granted('ROLE_ADMIN') %}
             <div class="admin-actions">
-                <h2>Acciones de Administrador</h2>
-                <p>Como administrador, puedes realizar las siguientes acciones:</p>
-                <ul>
-                    <li><a href="{{ path('app_create_pokemon') }}">Crear Pokémon</a></li>
+                <h2 class="section-title">Acciones de Administrador</h2>
+                <p class="section-description">Como administrador, puedes realizar las siguientes acciones:</p>
+                <ul class="action-list">
+                    <li><a href="{{ path('app_create_pokemon') }}" class="action-link">Crear Pokémon</a></li>
                 </ul>
             </div>
         {% endif %}
 
-
         <div class="user-actions">
-            <h2>Acciones para todos los usuarios</h2>
-            <ul>
-                <li><a href="{{ path('pokedex_user') }}">Ver mi Pokedex</a></li>
-                <li><a href="{{ path('viewpokemoncapture') }}">Capturar Pokémon</a></li>
+            <h2 class="section-title">Acciones para todos los usuarios</h2>
+            <ul class="action-list">
+                <li><a href="{{ path('pokedex_user') }}" class="action-link">Ver mi Pokedex</a></li>
+                <li><a href="{{ path('viewpokemoncapture') }}" class="action-link">Capturar Pokémon</a></li>
             </ul>
         </div>
 
         <div class="info">
-            <p>Si no tienes una cuenta, <a href="{{ path('app_register') }}">regístrate aquí</a> para empezar a capturar Pokémon.</p>
-            {# <li><a href="{{ path('updaterol') }}">Admin</a></li> #}
+            <p class="info-text">Si no tienes una cuenta, <a href="{{ path('app_register') }}" class="register-link">regístrate aquí</a> para empezar a capturar Pokémon.</p>
         </div>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 36px;
+            color: #ffcb05;
+            margin-bottom: 20px;
+        }
+
+        .intro-text {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #ffcb05;
+            margin-bottom: 10px;
+        }
+
+        .section-description {
+            font-size: 18px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .action-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .action-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffcb05;
+            color: black;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 10px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-link:hover {
+            background-color: #ffdd60;
+        }
+
+        .info-text {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .register-link {
+            color: #ffcb05;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .register-link:hover {
+            color: #ffdd60;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .main-title {
+                font-size: 30px;
+            }
+
+            .intro-text, .section-description, .info-text {
+                font-size: 16px;
+            }
+
+            .action-link {
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
 {% endblock %}

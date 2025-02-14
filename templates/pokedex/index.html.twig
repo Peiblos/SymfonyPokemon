@@ -3,25 +3,131 @@
 {% block title %}Mi Pokédex{% endblock %}
 
 {% block body %}
-    <h1>Mi Pokédex</h1>
-<a href="{{path("app_main")}}">Volver al inicio</a>
-    {% if pokedex is empty %}
-        <p>No has capturado ningún Pokémon aún.</p>
-    {% else %}
-        <div class="pokemon-list">
-            {% for pokemon in pokedex %}
-                <div class="pokemon-card">
-                    {# <img src="{{ asset('images/pokemon/' ~ pokemon.image) }}" alt="{{ pokemon.name }}"> #}
-                    <h2>{{ pokemon.pokemon.name }}</h2>
-                    <p><strong>Tipo:</strong> {{ pokemon.pokemon.tipo }}</p>
-                    <p><strong>Nivel:</strong> {{ pokemon.level }}</p>
-                    <p><strong>Fuerza:</strong> {{ pokemon.strong }}</p>
-                </div>
-                {# <a href="{{ path('app_new_battle', { id: pokemon.id }) }}">Pelear</a><br> #}
-                <a href="{{ path('app_pokedex_training', { id: pokemon.id }) }}">Entrenar</a><br>
-                <hr>
-            {% endfor %}
-        </div>
-    {% endif %}
-    
+    <div class="container">
+        <h1 class="pokedex-title">Mi Pokédex</h1>
+        <a href="{{path("app_main")}}" class="back-button">Volver al inicio</a>
+
+        {% if pokedex is empty %}
+            <p>No has capturado ningún Pokémon aún.</p>
+        {% else %}
+            <div class="pokemon-list">
+                {% for pokemon in pokedex %}
+                    <div class="pokemon-card">
+                        <h2 class="pokemon-name">{{ pokemon.pokemon.name }}</h2>
+                        <div class="pokemon-info">
+                            <p><strong>Tipo:</strong> {{ pokemon.pokemon.tipo }}</p>
+                            <p><strong>Nivel:</strong> {{ pokemon.level }}</p>
+                            <p><strong>Fuerza:</strong> {{ pokemon.strong }}</p>
+                        </div>
+                        <a href="{{ path('app_pokedex_training', { id: pokemon.id }) }}" class="train-button">Entrenar</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .pokedex-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #ffcb05; /* Color amarillo de Pokémon */
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #ffcb05;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #ffdd60;
+        }
+
+        .pokemon-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .pokemon-card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .pokemon-card:hover {
+            transform: scale(1.05);
+        }
+
+        .pokemon-name {
+            font-size: 24px;
+            color: #ffcb05;
+            margin-bottom: 10px;
+        }
+
+        .pokemon-info p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .train-button {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #ffcb05;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .train-button:hover {
+            background-color: #ffdd60;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .pokemon-name {
+                font-size: 20px;
+            }
+
+            .pokemon-info p {
+                font-size: 14px;
+            }
+        }
+    </style>
 {% endblock %}
