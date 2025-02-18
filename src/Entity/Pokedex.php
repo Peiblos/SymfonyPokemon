@@ -27,6 +27,9 @@ class Pokedex
     #[ORM\Column]
     private ?int $strong = null;
 
+    #[ORM\Column]
+    private ?int $alive = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class Pokedex
     public function setStrong(int $strong): static
     {
         $this->strong = $strong;
+
+        return $this;
+    }
+
+    public function getAlive(): ?int
+    {
+        return $this->alive;
+    }
+
+    public function setAlive(int $alive): static
+    {
+        $this->alive = $alive;
 
         return $this;
     }

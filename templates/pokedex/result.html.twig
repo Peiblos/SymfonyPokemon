@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entrenamiento Pokémon{% endblock %}
+
+{% block body %}
+    <h1>Enfrentamiento Pokémon</h1>
+
+    <div class="pokemon-container">
+        <div class="pokemon">
+            <h2>Tu Pokémon</h2>
+            <p><strong>Nombre:</strong> {{ pokemon.pokemon.name }}</p>
+            <p><strong>Fuerza:</strong> {{ pokemon.strong }}</p>
+        </div>
+
+        <div class="pokemon">
+            <h2>⚔️ Oponente</h2>
+            <p><strong>Nombre:</strong> {{ opponent.name }}</p>
+            <p><strong>Fuerza:</strong> {{ opponent.strong }}</p>
+        </div>
+    </div>
+
+    <h2> Resultado del Enfrentamiento</h2>
+    {% if result == 'Victoria' %}
+        <p class="win"><strong>¡Ganaste! 🎉</strong></p>
+        <a href="{{ path('app_pokedex_leveling',{'id':pokemon.id}) }}" class="btn">Subir de nivel</a>
+        <a href="{{ path('app_pokemon_capture',{'id':opponent.id}) }}" class="btn">Capturar</a>
+        <a href="{{ path('pokedex_user_dead') }}" class="btn">Resucitar un pokemon</a>
+
+    {% else %}
+        <p class="lose"><strong>¡Perdiste! 😢</strong></p>
+    {% endif %}
+
+    <a href="{{ path('pokedex_user') }}" class="btn">Volver a la Pokédex</a>
+
+    <style>
+        .pokemon-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .pokemon {
+            border: 2px solid #333;
+            padding: 15px;
+            border-radius: 10px;
+            width: 40%;
+            text-align: center;
+            background: #f8f8f8;
+        }
+        .win {
+            color: green;
+            font-size: 1.5em;
+        }
+        .lose {
+            color: red;
+            font-size: 1.5em;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+
+{% endblock %}

@@ -16,6 +16,26 @@ class PokedexRepository extends ServiceEntityRepository
         parent::__construct($registry, Pokedex::class);
     }
 
+    public function findFaintedByUser(int $userId): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.owner = :userId')
+            ->andWhere('p.alive = 0')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAliveByUser(int $userId): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.owner = :userId')
+            ->andWhere('p.alive = 1')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Pokedex[] Returns an array of Pokedex objects
     //     */

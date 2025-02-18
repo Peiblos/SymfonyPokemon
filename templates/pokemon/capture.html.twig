@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Captura Pokémon{% endblock %}
+
+{% block body %}
+    <div class="capture-container">
+        <h1 class="page-title">¡Encuentra un Pokémon!</h1>
+
+        <div class="pokemon-card">
+            <h2 class="pokemon-name">{{ pokemon.name }}</h2>
+            <img src="{{ asset('images/pokemon/' ~ pokemon.image) }}" alt="{{ pokemon.name }}" class="pokemon-image">
+            <p><strong>Tipo:</strong> {{ pokemon.tipo }}</p>
+            <p><strong>Nivel:</strong> {{ pokemon.level }}</p>
+            <p><strong>Fuerza:</strong> {{ pokemon.strong }}</p>
+        </div>
+
+        <div class="action-buttons">
+            <a href="{{ path('app_pokemon_capture' ,{ id: pokemon.id }) }}" class="btn capture-btn">Capturar Pokémon</a>
+            <a href="{{ path('app_main')}}" class="btn flee-btn">Huir</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .capture-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 36px;
+            color: #ffcb05;
+            margin-bottom: 20px;
+        }
+
+        .pokemon-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .pokemon-name {
+            font-size: 28px;
+            color: #ffcb05;
+            margin-bottom: 15px;
+        }
+
+        .pokemon-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .pokemon-card p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 18px;
+            text-decoration: none;
+            text-align: center;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .capture-btn {
+            background-color: #28a745; /* Verde para capturar */
+        }
+
+        .capture-btn:hover {
+            background-color: #218838;
+        }
+
+        .flee-btn {
+            background-color: #dc3545; /* Rojo para huir */
+        }
+
+        .flee-btn:hover {
+            background-color: #c82333;
+        }
+
+        @media (max-width: 768px) {
+            .capture-container {
+                padding: 15px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .pokemon-name {
+                font-size: 24px;
+            }
+
+            .pokemon-image {
+                max-width: 250px;
+            }
+
+            .btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+{% endblock %}

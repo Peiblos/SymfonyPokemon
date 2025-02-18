@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Battle{% endblock %}
+
+{% block body %}
+    <h1>Batalla pokemon</h1>
+    <h2>{{ pokemon.pokemon.name }} contra {{ wildPokemon.name }}</h2>
+    
+
+    <a href="{{ path('app_fighting', {'pokedex': pokemon.id, 'wildpokemon': wildPokemon.id}) }}">Luchar</a>
+
+{% endblock %}

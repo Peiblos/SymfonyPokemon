@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}¡Pokémon No Capturado!{% endblock %}
+
+{% block body %}
+    <div class="capture-container">
+        <h1 class="failure-title">No has capturado a {{ pokemon.name }}! 😔</h1>
+
+        <div class="pokemon-card">
+            <img src="{{ asset('images/pokemon/' ~ pokemon.image) }}" alt="{{ pokemon.name }}" class="pokemon-image">
+            <h2 class="pokemon-name">{{ pokemon.name }}</h2>
+            <p class="pokemon-status">¡Intentalo en otro momento!</p>
+        </div>
+
+        <a href="{{ path('pokedex_user') }}" class="btn go-to-pokedex-btn">Ver mi Pokédex</a>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .capture-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .failure-title {
+            font-size: 36px;
+            color: #dc3545; /* Rojo, para mostrar que no fue exitoso */
+            margin-bottom: 20px;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .pokemon-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .pokemon-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .pokemon-name {
+            font-size: 28px;
+            color: #ffcb05; /* El amarillo es característico de Pokémon */
+            margin-bottom: 10px;
+        }
+
+        .pokemon-status {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .go-to-pokedex-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff; /* Azul para un tono neutro */
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .go-to-pokedex-btn:hover {
+            background-color: #0056b3;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-10px);
+            }
+            50% {
+                transform: translateX(10px);
+            }
+            75% {
+                transform: translateX(-10px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .capture-container {
+                padding: 15px;
+            }
+
+            .failure-title {
+                font-size: 28px;
+            }
+
+            .pokemon-name {
+                font-size: 24px;
+            }
+
+            .go-to-pokedex-btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+{% endblock %}
