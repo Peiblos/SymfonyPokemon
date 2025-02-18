@@ -39,6 +39,12 @@ class Pokemon
     #[ORM\OneToMany(targetEntity: Pokedex::class, mappedBy: 'pokemon')]
     private Collection $pokedexes;
 
+    #[ORM\OneToOne(targetEntity: self::class, inversedBy: 'pokemon', cascade: ['persist', 'remove'])]
+    private ?self $evolution = null;
+
+    #[ORM\OneToOne(targetEntity: self::class, mappedBy: 'evolution', cascade: ['persist', 'remove'])]
+    private ?self $pokemon = null;
+
     public function __construct()
     {
         $this->pokedexes = new ArrayCollection();
@@ -147,6 +153,40 @@ class Pokemon
                 $pokedex->setPokemon(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEvolution(): ?self
+    {
+        return $this->evolution;
+    }
+
+    public function setEvolution(?self $evolution): static
+    {
+        $this->evolution = $evolution;
+
+        return $this;
+    }
+
+    public function getPokemon(): ?self
+    {
+        return $this->pokemon;
+    }
+
+    public function setPokemon(?self $pokemon): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($pokemon === null && $this->pokemon !== null) {
+            $this->pokemon->setEvolution(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($pokemon !== null && $pokemon->getEvolution() !== $this) {
+            $pokemon->setEvolution($this);
+        }
+
+        $this->pokemon = $pokemon;
 
         return $this;
     }

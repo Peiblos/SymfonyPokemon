@@ -133,7 +133,7 @@ final class PokedexController extends AbstractController
     }
     
     #[Route('/leveling/{id}', name: 'app_pokedex_leveling', methods: ['GET', 'POST'])]
-    public function leveling(Pokedex $pokedex, PokedexRepository $pokedexRepository, EntityManagerInterface $entityManager): Response
+    public function leveling(Pokedex $pokedex, PokedexRepository $pokedexRepository, PokemonRepository $pokemonRepository,EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -147,6 +147,22 @@ final class PokedexController extends AbstractController
 
         // Entrenar el Pokémon sumando 10 puntos a su fuerza
         $pokedex->setLevel($pokedex->getLevel() + 1);
+        if($pokedex->getLevel() >= 10) {
+            $level = $pokedex->getLevel();
+            $strong = $pokedex->getStrong();
+            // Si el nivel del pokemon es 10, buscar la evolución del pokemon
+            //pokemon relacionado con el pokemon en la pokedex
+            $pokemon = $pokemonRepository->findPokemonById($pokedex->getPokemon()->getId());
+            $idPokemonEvo = $pokemon->getEvolution();
+            // dd($idPokemonEvo);
+            if($idPokemonEvo){
+                // Si hay una evolución, buscar el nuevo pokemon y actualizar la pokedex
+                $pokemonEvo = $pokemonRepository->find($idPokemonEvo);
+                $pokedex->setPokemon($pokemonEvo);
+                $pokedex->setLevel($level);
+                $pokedex->setStrong($strong);
+            } 
+        }
         $entityManager->persist($pokedex);
         $entityManager->flush();
 
