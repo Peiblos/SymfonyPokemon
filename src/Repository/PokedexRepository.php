@@ -60,4 +60,14 @@ class PokedexRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findAllByUser(int $userId): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.owner = :userId')
+            ->setParameter('userId', $userId)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 }

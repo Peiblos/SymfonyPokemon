@@ -3,10 +3,89 @@
 {% block title %}Battle{% endblock %}
 
 {% block body %}
-    <h1>Batalla pokemon</h1>
-    <h2>{{ pokemon.pokemon.name }} contra {{ wildPokemon.name }}</h2>
-    
+    <div class="battle-container">
+        <h1 class="battle-title">Batalla Pokémon</h1>
+        <h2 class="battle-subtitle">{{ pokemon.pokemon.name }} vs {{ wildPokemon.name }}</h2>
+        
+        <a href="{{ path('app_fighting', {'pokedex': pokemon.id, 'wildpokemon': wildPokemon.id}) }}" class="fight-button">¡Luchar!</a>
+    </div>
+{% endblock %}
 
-    <a href="{{ path('app_fighting', {'pokedex': pokemon.id, 'wildpokemon': wildPokemon.id}) }}">Luchar</a>
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffcb05, #3b4cca);
+            margin: 0;
+            padding: 0;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
+        .battle-container {
+            max-width: 600px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .battle-title {
+            font-size: 40px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        .battle-subtitle {
+            font-size: 24px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .fight-button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 20px;
+            color: white;
+            background-color: #ff6f61;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .fight-button:hover {
+            background-color: #d9534f;
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 {% endblock %}
